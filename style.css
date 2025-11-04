@@ -1,23 +1,22 @@
 body {
-  background-color: #111;
-  color: #eee;
-  font-family: "Courier New", monospace;
-  text-align: center;
-  padding: 50px;
-}
-
-button {
-  background-color: #f00;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  margin-top: 20px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #c00;
-}
+  background-color: black;
+  color: #00ff00;
+  font-family: monospace;
   padding: 20px;
-  text-align: center;
+}
+
+#terminal {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#command {
+  width: 100%;
+  background-color: black;
+  color: #00ff00;
+  border: none;
+  font-family: monospace;
+  font-size: 16px;
+  outline: none;
 }

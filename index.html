@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SCP Site Management</title>
+  <title>SCP Site Terminal</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>SCP Foundation: Site Management Console</h1>
-    <div id="game">
-      <p id="text">Welcome, Site Director. Containment status report requested.</p>
-      <button id="startBtn">Begin Briefing</button>
-    </div>
-
+  <div id="terminal">
+    <pre id="log"></pre>
+    <input type="text" id="command" placeholder="Enter command..." autofocus />
+  </div>
   <script src="game.js"></script>
 </body>
 </html>

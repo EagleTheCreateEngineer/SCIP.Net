@@ -1,34 +1,29 @@
 const gridEl = document.getElementById("grid");
-
-// Grid dimensions
 const rows = 15;
 const cols = 30;
 
-// Create 2D array of spaces
-let grid = Array.from({ length: rows }, () => Array(cols).fill(" "));
+// build grid as <span> elements
+let grid = Array.from({ length: rows }, (_, y) => {
+  const rowEl = document.createElement("div");
+  rowEl.className = "row";
+  const row = [];
 
-// Render function
-function renderGrid() {
-  gridEl.textContent = grid.map(row => row.join("")).join("\n");
-}
-
-// Detect click position
-gridEl.addEventListener("click", (event) => {
-  const rect = gridEl.getBoundingClientRect();
-  const fontSize = parseFloat(getComputedStyle(gridEl).fontSize);
-  const charWidth = fontSize * 0.6;  // approximate monospace width
-  const lineHeight = parseFloat(getComputedStyle(gridEl).lineHeight);
-
-  // Calculate which character was clicked
-  const x = Math.floor((event.clientX - rect.left) / charWidth);
-  const y = Math.floor((event.clientY - rect.top) / lineHeight);
-
-  // Toggle character if inside bounds
-  if (y >= 0 && y < rows && x >= 0 && x < cols) {
-    grid[y][x] = grid[y][x] === "#" ? " " : "#";
-    renderGrid();
+  for (let x = 0; x < cols; x++) {
+    const cellEl = document.createElement("span");
+    cellEl.className = "cell";
+    cellEl.textContent = " ";
+    cellEl.dataset.x = x;
+    cellEl.dataset.y = y;
+    cellEl.addEventListener("click", toggleCell);
+    rowEl.appendChild(cellEl);
+    row.push(cellEl);
   }
+
+  gridEl.appendChild(rowEl);
+  return row;
 });
 
-// Initial render
-renderGrid();
+function toggleCell(e) {
+  const cell = e.target;
+  cell.textContent = cell.textContent === "#" ? " " : "#";
+}

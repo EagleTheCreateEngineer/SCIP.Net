@@ -1,6 +1,6 @@
 const gridEl = document.getElementById("grid");
-const rows = 15;
-const cols = 30;
+const rows = 105;
+const cols = 300;
 
 // build grid as <span> elements
 let grid = Array.from({ length: rows }, (_, y) => {

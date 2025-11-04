@@ -1,28 +1,34 @@
-const gridElement = document.getElementById("grid");
+const gridEl = document.getElementById("grid");
 
-// grid size
+// Grid dimensions
 const rows = 15;
 const cols = 30;
 
-// create grid array
+// Create 2D array of spaces
 let grid = Array.from({ length: rows }, () => Array(cols).fill(" "));
 
-// render function
+// Render function
 function renderGrid() {
-  gridElement.textContent = grid.map(row => row.join("")).join("\n");
+  gridEl.textContent = grid.map(row => row.join("")).join("\n");
 }
 
-// convert click position to grid coordinates
-gridElement.addEventListener("click", (e) => {
-  const rect = gridElement.getBoundingClientRect();
-  const lineHeight = parseFloat(getComputedStyle(gridElement).lineHeight);
-  const charWidth = parseFloat(getComputedStyle(gridElement).fontSize) * 0.6;
+// Detect click position
+gridEl.addEventListener("click", (event) => {
+  const rect = gridEl.getBoundingClientRect();
+  const fontSize = parseFloat(getComputedStyle(gridEl).fontSize);
+  const charWidth = fontSize * 0.6;  // approximate monospace width
+  const lineHeight = parseFloat(getComputedStyle(gridEl).lineHeight);
 
-  const x = Math.floor((e.clientX - rect.left) / charWidth);
-  const y = Math.floor((e.clientY - rect.top) / lineHeight);
+  // Calculate which character was clicked
+  const x = Math.floor((event.clientX - rect.left) / charWidth);
+  const y = Math.floor((event.clientY - rect.top) / lineHeight);
 
-  if (x >= 0 && x < cols && y >= 0 && y < rows) {
+  // Toggle character if inside bounds
+  if (y >= 0 && y < rows && x >= 0 && x < cols) {
     grid[y][x] = grid[y][x] === "#" ? " " : "#";
     renderGrid();
   }
 });
+
+// Initial render
+renderGrid();

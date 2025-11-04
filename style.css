@@ -1,31 +1,23 @@
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f3f4f6;
-  margin: 0;
-  padding: 0;
-}
-
-header {
-  background-color: #1f2937;
-  color: white;
-  padding: 20px;
+  background-color: #111;
+  color: #eee;
+  font-family: "Courier New", monospace;
   text-align: center;
+  padding: 50px;
 }
 
 button {
-  background-color: #3b82f6;
+  background-color: #f00;
   color: white;
   border: none;
   padding: 10px 20px;
+  margin-top: 20px;
   cursor: pointer;
-  border-radius: 5px;
 }
 
 button:hover {
-  background-color: #2563eb;
+  background-color: #c00;
 }
-
-main {
   padding: 20px;
   text-align: center;
 }

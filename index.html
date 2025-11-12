@@ -1,79 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Interactive Hacker Screen</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Hacker Console</title>
   <style>
-    body, html {
-      margin:0;
-      padding:0;
-      height:100%;
-      width:100%;
-      overflow:hidden;
-      background:black;
-      color:#00ff00;
-      font-family: monospace;
+    /* --- Page Setup --- */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #000;
+      color: #00ff00;
+      font-family: "Courier New", monospace;
+      overflow: hidden;
     }
-    #bg {
-      position: absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      background: url('your-image.jpg') center center/cover no-repeat;
-      z-index:1;
+
+    /* --- Animated Background (Matrix-style rain) --- */
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background: black;
     }
+
+    /* --- Interactable Overlay --- */
     #overlay {
-      position:absolute;
-      top:0; left:0;
-      width:100%; height:100%;
-      z-index:2;
-      pointer-events: none;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
     }
+
     .hotspot {
-      position:absolute;
-      border:1px dashed #00ff00;
-      cursor:pointer;
-      pointer-events: auto;
+      position: absolute;
+      border: 1px dashed #00ff00;
+      cursor: pointer;
+      transition: 0.2s;
     }
-    /* Example hotspot positions */
-    #hs1 { top:10%; left:20%; width:15%; height:10%; }
-    #hs2 { top:40%; left:50%; width:20%; height:10%; }
-    /* etc */
-    /* Popup styling */
+
+    .hotspot:hover {
+      background-color: rgba(0, 255, 0, 0.1);
+      box-shadow: 0 0 10px #00ff00;
+    }
+
+    #hs1 { top: 10%; left: 20%; width: 15%; height: 10%; }
+    #hs2 { top: 40%; left: 50%; width: 20%; height: 10%; }
+
+    /* --- Popup --- */
     #popup {
-      display:none;
-      position:absolute;
-      top:30%; left:30%;
-      width:40%; height:30%;
-      background: rgba(0,0,0,0.9);
-      border:2px solid #00ff00;
-      padding:20px;
-      color:#00ff00;
-      z-index:10;
+      display: none;
+      position: absolute;
+      top: 30%;
+      left: 30%;
+      width: 40%;
+      height: 30%;
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid #00ff00;
+      padding: 20px;
+      color: #00ff00;
+      z-index: 10;
     }
+
     #popup button {
-      background:#000;
-      color:#00ff00;
-      border:1px solid #00ff00;
-      padding:5px 10px;
-      cursor:pointer;
+      background: #000;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+      padding: 5px 10px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div id="bg"></div>
+  <canvas id="matrix"></canvas>
+
   <div id="overlay">
-    <div id="hs1" class="hotspot" data-info="Hotspot 1 triggered"></div>
-    <div id="hs2" class="hotspot" data-info="Hotspot 2 triggered"></div>
+    <div id="hs1" class="hotspot" data-info="Accessing secure node..."></div>
+    <div id="hs2" class="hotspot" data-info="System breach protocol initiated."></div>
   </div>
+
   <div id="popup">
     <div id="popupContent"></div>
     <button id="closePopup">Close</button>
   </div>
 
   <script>
+    /* --- Matrix Code Background --- */
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 35);
+
+    /* --- Interactive Hotspots --- */
     const hotspots = document.querySelectorAll('.hotspot');
     const popup = document.getElementById('popup');
     const popupContent = document.getElementById('popupContent');
@@ -81,8 +128,7 @@
 
     hotspots.forEach(hs => {
       hs.addEventListener('click', () => {
-        const info = hs.getAttribute('data-info');
-        popupContent.textContent = info;
+        popupContent.textContent = hs.getAttribute('data-info');
         popup.style.display = 'block';
       });
     });
@@ -91,6 +137,5 @@
       popup.style.display = 'none';
     });
   </script>
-
 </body>
 </html>

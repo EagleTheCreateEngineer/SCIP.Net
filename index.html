@@ -2,25 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Image Page</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Interactive Hacker Screen</title>
   <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f0f0f0;
+    body, html {
+      margin:0;
+      padding:0;
+      height:100%;
+      width:100%;
+      overflow:hidden;
+      background:black;
+      color:#00ff00;
+      font-family: monospace;
     }
-    img {
-      max-width: 80%;
-      height: auto;
-      border: 2px solid #ccc;
-      border-radius: 10px;
+    #bg {
+      position: absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background: url('your-image.jpg') center center/cover no-repeat;
+      z-index:1;
+    }
+    #overlay {
+      position:absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+      z-index:2;
+      pointer-events: none;
+    }
+    .hotspot {
+      position:absolute;
+      border:1px dashed #00ff00;
+      cursor:pointer;
+      pointer-events: auto;
+    }
+    /* Example hotspot positions */
+    #hs1 { top:10%; left:20%; width:15%; height:10%; }
+    #hs2 { top:40%; left:50%; width:20%; height:10%; }
+    /* etc */
+    /* Popup styling */
+    #popup {
+      display:none;
+      position:absolute;
+      top:30%; left:30%;
+      width:40%; height:30%;
+      background: rgba(0,0,0,0.9);
+      border:2px solid #00ff00;
+      padding:20px;
+      color:#00ff00;
+      z-index:10;
+    }
+    #popup button {
+      background:#000;
+      color:#00ff00;
+      border:1px solid #00ff00;
+      padding:5px 10px;
+      cursor:pointer;
     }
   </style>
 </head>
 <body>
-  <img src="myimage.jpg" alt="A beautiful picture">
+  <div id="bg"></div>
+  <div id="overlay">
+    <div id="hs1" class="hotspot" data-info="Hotspot 1 triggered"></div>
+    <div id="hs2" class="hotspot" data-info="Hotspot 2 triggered"></div>
+  </div>
+  <div id="popup">
+    <div id="popupContent"></div>
+    <button id="closePopup">Close</button>
+  </div>
+
+  <script>
+    const hotspots = document.querySelectorAll('.hotspot');
+    const popup = document.getElementById('popup');
+    const popupContent = document.getElementById('popupContent');
+    const closeBtn = document.getElementById('closePopup');
+
+    hotspots.forEach(hs => {
+      hs.addEventListener('click', () => {
+        const info = hs.getAttribute('data-info');
+        popupContent.textContent = info;
+        popup.style.display = 'block';
+      });
+    });
+
+    closeBtn.addEventListener('click', () => {
+      popup.style.display = 'none';
+    });
+  </script>
+
 </body>
 </html>
